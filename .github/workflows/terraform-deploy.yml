@@ -25,7 +25,7 @@ jobs:
     env:
          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-         AWS_DEFAULT_REGION: ${{ secrets.AWS_REGION }}
+         AWS_DEFAULT_REGION: ap-south-1
     steps:
       - uses: actions/checkout@v2
       - uses: hashicorp/setup-terraform@v1
@@ -41,11 +41,11 @@ jobs:
         run: |
           terraform plan -input=false -var-file=${{ matrix.environment }}/terraform.tfvars -no-color
       - name: Terraform Apply
-       # if: github.ref == 'refs/heads/main'
+        if: github.ref == 'heads/main'
         id: apply
         run: terraform apply -auto-approve -input=false -var-file=${{ matrix.environment }}/terraform.tfvars
       - name: Terraform destroy
-        #if: github.ref == 'refs/heads/destroy'
+        if: github.ref == 'heads/destroy'
         id: destroy
         run: terraform destroy -auto-approve -input=false -var-file=${{ matrix.environment }}/terraform.tfvars
   comment:
@@ -60,5 +60,5 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'thanks!'
+              body: '👋 Thanks for reporting!'
             })
