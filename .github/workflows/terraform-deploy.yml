@@ -18,7 +18,7 @@ jobs:
       max-parallel: 1
       matrix:
          include:
-           - environment: test
+           - environment: dev
              runner: ubuntu-latest
            - environment: prod
              runner: ubuntu-18.04
